@@ -1,2 +1,32 @@
-package org.example.ThreadCreation.Callable_Interface_03;public class CallableExample {
+package org.example.ThreadCreation.Callable_Interface_03;
+
+import java.util.concurrent.*;
+
+public class CallableExample {
+
+    public static void  main(String[] args) {
+
+    ExecutorService executor = Executors.newFixedThreadPool(2);
+    // create callable instances
+    Callable<String> callable1 = new MyCallable("Task 1");
+    Callable<String> callable2 = new MyCallable("Task 2");
+
+    try {
+        Future<String> future1 = executor.submit(callable1);
+        Future<String> future2 = executor.submit(callable2);
+
+        // get results from future objects.
+        System.out.println("Result from first task: ");
+        System.out.println(future1.get());
+
+        System.out.println("Results from second task: ");
+        System.out.println(future2.get());
+
+    }
+    catch(InterruptedException | ExecutionException e){
+        System.out.println("Task execution interrupted: "+e.getMessage());
+    }finally{
+        executor.shutdown();
+       }
+    }
 }
